@@ -1,13 +1,13 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require('./config/config');
-const formController = require('./controllers/form.controller');
 
 const app = express();
 const db = require('./models');
 
-db.sequelize.sync({force: true});
+const formRoutes = require('./routes/forms.routes');
+
+db.sequelize.sync();
 
 var corsOptions = {
     origin: "http://localhost:3000"
@@ -16,9 +16,7 @@ var corsOptions = {
 app.use(cors(config.application.corsOptions));
 app.use(express.json());
 
-app.get('/api/forms:id', formController.getForms);
-
-app.post('/api/forms', formController.postForms);
+app.use('/', formRoutes);
 
 const PORT = 3001;
 
