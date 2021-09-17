@@ -18,7 +18,6 @@ db.sequelize = sequelize;
 
 db.form = require('../models/form.model')(sequelize, Sequelize);
 db.question = require('../models/question.model')(sequelize, Sequelize);
-db.option = require('../models/option.model')(sequelize, Sequelize);
 
 db.form.hasMany(db.question, {
     as: 'questions',
@@ -28,16 +27,6 @@ db.form.hasMany(db.question, {
 db.question.belongsTo(db.form, {
     foreignKey: 'formId',
     as: 'form'
-});
-
-db.question.hasOne(db.option, {
-    as: 'options',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-db.option.belongsTo(db.question, {
-    foreignKey: 'questionId',
-    as: 'question'
 });
 
 module.exports = db;
